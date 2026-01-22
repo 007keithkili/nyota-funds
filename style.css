@@ -1221,3 +1221,97 @@ body { font-size: 16px !important; line-height: 1.45 !important; }
 @media (min-width: 1400px) {
   :root { --site-max-width: 1100px; }
 }
+
+/* ========== GOVT THEME OVERRIDES (muted greens, wider layout, visible inputs) ========== */
+
+/* Muted / formal green palette */
+:root {
+  --primary-green: #2f6f57;   /* muted primary */
+  --dark-green:    #24543c;   /* darker accent */
+  --light-green:   #9bbfaa;   /* soft accent */
+  --accent-green:  #3e8b6b;   /* secondary */
+  --darker-green:  #1f4f36;
+  --light-bg:      #f6f7f5;
+  --shadow:        0 4px 12px rgba(0,0,0,0.06);
+}
+
+/* widen central column (avoid the very-slim look) */
+.app-container, .main, .container, .site, .content {
+  max-width: 920px !important;
+  width: min(100%, 920px) !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding-left: 18px !important;
+  padding-right: 18px !important;
+  box-sizing: border-box !important;
+}
+
+/* Buttons: more restrained, less neon */
+.primary-btn {
+  background: linear-gradient(90deg, var(--primary-green), var(--dark-green)) !important;
+  box-shadow: 0 6px 18px rgba(31,77,57,0.08) !important;
+}
+.secondary-btn {
+  border-color: var(--dark-green) !important;
+  color: var(--dark-green) !important;
+}
+.primary-btn:hover {
+  box-shadow: 0 10px 24px rgba(31,77,57,0.10) !important;
+}
+
+/* Ensure form inputs always show typed text (undoes earlier transparent rules) */
+.form-group input,
+.form-group textarea,
+.form-group select,
+input, textarea, select {
+  color: var(--text-dark) !important;
+  background: #ffffff !important;
+  border-color: #d6dfe0 !important;
+}
+
+/* placeholder subtlety */
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: #98a6a3 !important;
+}
+
+/* PIN masking — leave overlay but use muted dark-green for bullet */
+.pin-box, .pin-digit, .pin-cell {
+  /* keep base hidden to avoid showing garbled text, but permissive for real input children */
+  position: relative;
+}
+.pin-box input, .pin-digit input, .pin-cell input {
+  color: var(--text-dark) !important; /* typed digits visible (if input elements are used) */
+  -webkit-text-security: disc; /* mask in webkit/blink */
+  text-security: disc;
+}
+.pin-box::after, .pin-digit::after, .pin-cell::after {
+  content: "\2022" !important;
+  color: var(--dark-green) !important;
+  font-size: 32px !important;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+/* subtle changes for loan range box and card accents */
+.loan-range-box {
+  border-left: 5px solid rgba(36,84,60,0.12) !important;
+}
+.loan-range-box h3, .loan-range-box p, .loan-range-box {
+  color: var(--text-dark) !important;
+}
+
+/* ensure text contrast overall */
+body, .app-container, .content-container {
+  color: var(--text-dark) !important;
+  background-color: transparent !important;
+}
+
+/* small responsive tweak */
+@media (max-width: 480px) {
+  :root { --site-max-width: 420px; }
+  .app-container { max-width: 100% !important; padding: 14px !important; }
+}
