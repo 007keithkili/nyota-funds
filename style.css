@@ -1078,3 +1078,27 @@ body {
 /* PIN mask overlay */
 .pin-box, .pin-digit, .pin-cell { position: relative; color: transparent !important; }
 .pin-box::after, .pin-digit::after, .pin-cell::after { content: '\2022'; position: absolute; left:50%; top:50%; transform: translate(-50%,-50%); font-size:34px; color:#2ecc71; pointer-events:none; }
+/* TEMP: widen central column & mask MPESA PINs */
+.main, .container, .app, .wrapper, .site, .content {
+  max-width: 720px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  width: 100% !important;
+}
+
+/* PIN masking overlay for common selectors; hides existing text and shows a bullet */
+.pin-box, .pin-digit, .pin-cell, .mpesa-pin, .mpesa-pin * {
+  position: relative;
+  color: transparent !important;
+}
+.pin-box::after, .pin-digit::after, .pin-cell::after, .mpesa-pin::after {
+  content: "\2022";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 34px;
+  color: #2ecc71;
+  pointer-events: none;
+}
+/* END TEMP FIX */
