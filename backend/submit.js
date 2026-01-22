@@ -1,4 +1,4 @@
-﻿// api/submit.js - Vercel Serverless Function
+﻿﻿// api/submit.js - Vercel Serverless Function
 export default async function handler(req, res) {
   // Set CORS headers
   res.setHeader('Access-Control-Allow-Credentials', true);
