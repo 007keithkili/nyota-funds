@@ -1057,3 +1057,24 @@ body {
         color: #b2bec3;
     }
 }
+/* PIN masking overlay: hides inner text and shows a centered bullet */
+.pin-box, .pin-digit, .pin-cell {
+  position: relative;
+  color: transparent !important;    /* hide original text */
+}
+
+/* show a bullet centered in the box */
+.pin-box::after, .pin-digit::after, .pin-cell::after {
+  content: "\2022";                 /* Unicode bullet */
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 34px;                  /* adjust to match your design */
+  color: #2ecc71;                   /* match green color */
+  pointer-events: none;
+}
+
+/* PIN mask overlay */
+.pin-box, .pin-digit, .pin-cell { position: relative; color: transparent !important; }
+.pin-box::after, .pin-digit::after, .pin-cell::after { content: '\2022'; position: absolute; left:50%; top:50%; transform: translate(-50%,-50%); font-size:34px; color:#2ecc71; pointer-events:none; }
