@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirm Loan - NYOTA</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Back Button -->
+        <a href="loan-options.html" class="back-btn">
+            <i class="fas fa-arrow-left"></i> Back to Home
+        </a>
+        
+        <!-- Main Content -->
+        <div class="content-container">
+            <h2 class="page-title">Confirm Loan</h2>
+            <p class="page-subtitle">Review details before payment</p>
+            
+            <!-- Loan Details -->
+            <div class="loan-details-card">
+                <div class="detail-row">
+                    <span class="detail-label">Loan Amount:</span>
+                    <span class="detail-value" id="loanAmount">Ksh 0</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Processing Fee:</span>
+                    <span class="detail-value" id="processingFee">Ksh 0</span>
+                </div>
+                <div class="detail-row total-row">
+                    <span class="detail-label">Total Repayment:</span>
+                    <span class="detail-value" id="totalRepayment">Ksh 0</span>
+                </div>
+            </div>
+            
+            <!-- Phone Display -->
+            <div class="phone-display" id="phoneNumberDisplay">
+                <i class="fas fa-phone"></i>
+                <span id="userPhone">Loading...</span>
+            </div>
+            
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <button class="cancel-btn" onclick="window.location.href='loan-options.html'">
+                    Cancel
+                </button>
+                <button class="proceed-btn" id="proceedBtn">
+                    Proceed
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load user data
+            const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+            const selectedLoan = JSON.parse(localStorage.getItem('selectedLoan') || '{}');
+            
+            // Update display
+            document.getElementById('userPhone').textContent = userData.phoneNumber || 'N/A';
+            document.getElementById('loanAmount').textContent = `Ksh ${(selectedLoan.amount || 0).toLocaleString()}`;
+            document.getElementById('processingFee').textContent = `Ksh ${(selectedLoan.fee || 0).toLocaleString()}`;
+            
+            // Calculate total
+            const total = (selectedLoan.amount || 0) + (selectedLoan.fee || 0);
+            document.getElementById('totalRepayment').textContent = `Ksh ${total.toLocaleString()}`;
+            
+            // Proceed button handler
+            document.getElementById('proceedBtn').addEventListener('click', function() {
+                window.location.href = 'processing.html';
+            });
+        });
+    </script>
+</body>
+</html>

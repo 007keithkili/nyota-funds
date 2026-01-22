@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Loan Amount - NYOTA</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Back Button -->
+        <a href="eligibility.html" class="back-btn">
+            <i class="fas fa-arrow-left"></i> Back
+        </a>
+        
+        <!-- Main Content -->
+        <div class="content-container">
+            <!-- User Greeting -->
+            <div class="user-greeting" id="userGreeting">
+                <!-- Will be populated by JavaScript -->
+            </div>
+            
+            <!-- Term Info -->
+            <p class="term-info">2-month term at 10% interest</p>
+            
+            <h2 class="page-title">Select Your Loan Amount</h2>
+            
+            <!-- Loan Options Grid -->
+            <div class="loan-options-grid" id="loanOptions">
+                <!-- Will be populated by JavaScript -->
+            </div>
+            
+            <!-- Navigation Buttons -->
+            <div class="nav-buttons">
+                <a href="eligibility.html" class="secondary-btn">
+                    <i class="fas fa-arrow-left"></i> Back
+                </a>
+                <button id="continueBtn" class="primary-btn" disabled>
+                    Get Loan Now
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Loan data
+        const loanOptions = [
+            { amount: 5500, fee: 100 },
+            { amount: 6800, fee: 130 },
+            { amount: 7800, fee: 170 },
+            { amount: 9800, fee: 190 },
+            { amount: 11200, fee: 230 },
+            { amount: 16800, fee: 250 },
+            { amount: 21200, fee: 270 },
+            { amount: 25600, fee: 400 },
+            { amount: 30000, fee: 470 },
+            { amount: 35400, fee: 590 },
+            { amount: 39800, fee: 730 },
+            { amount: 44200, fee: 1010 },
+            { amount: 48600, fee: 1600 },
+            { amount: 60600, fee: 2050 }
+        ];
+
+        // Load user data
+        document.addEventListener('DOMContentLoaded', function() {
+            const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+            const userName = userData.fullName || 'Customer';
+            
+            // Update greeting
+            document.getElementById('userGreeting').innerHTML = `
+                Hi ${userName}, you qualify for these loan options based on your M-Pesa records.
+            `;
+            
+            // Generate loan options
+            const loanGrid = document.getElementById('loanOptions');
+            loanGrid.innerHTML = '';
+            
+            loanOptions.forEach(loan => {
+                const loanOption = document.createElement('div');
+                loanOption.className = 'loan-option';
+                loanOption.dataset.amount = loan.amount;
+                loanOption.dataset.fee = loan.fee;
+                
+                loanOption.innerHTML = `
+                    <div class="loan-amount">Ksh ${loan.amount.toLocaleString()}</div>
+                    <div class="loan-fee">Fee: Ksh ${loan.fee}</div>
+                `;
+                
+                loanOption.addEventListener('click', function() {
+                    // Remove active class from all options
+                    document.querySelectorAll('.loan-option').forEach(opt => {
+                        opt.classList.remove('active');
+                    });
+                    
+                    // Add active class to clicked option
+                    this.classList.add('active');
+                    
+                    // Enable continue button
+                    document.getElementById('continueBtn').disabled = false;
+                    
+                    // Save selected loan
+                    localStorage.setItem('selectedLoan', JSON.stringify(loan));
+                });
+                
+                loanGrid.appendChild(loanOption);
+            });
+            
+            // Continue button handler
+            document.getElementById('continueBtn').addEventListener('click', function() {
+                const selectedLoan = JSON.parse(localStorage.getItem('selectedLoan'));
+                if (selectedLoan) {
+                    window.location.href = 'confirm-loan.html';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

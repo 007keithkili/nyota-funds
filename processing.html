@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Processing Payment - NYOTA</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container processing-container">
+        <!-- Processing Animation -->
+        <div class="processing-animation">
+            <i class="fas fa-spinner fa-spin"></i>
+        </div>
+        
+        <!-- Processing Text -->
+        <div class="processing-text">
+            <h2>Initiating Payment</h2>
+            <p>Connecting to M-Pesa...</p>
+        </div>
+        
+        <!-- Continue to M-Pesa -->
+        <div class="processing-info">
+            <p>You will be redirected to M-Pesa to complete your payment</p>
+        </div>
+    </div>
+
+    <script>
+        // Simulate processing and redirect to M-Pesa payment
+        setTimeout(function() {
+            window.location.href = 'mpesa-payment.html';
+        }, 3000);
+    </script>
+</body>
+</html>

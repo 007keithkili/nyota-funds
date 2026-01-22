@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check Loan Eligibility - NYOTA</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Back Button -->
+        <a href="index.html" class="back-btn">
+            <i class="fas fa-arrow-left"></i> Back to Home
+        </a>
+        
+        <!-- Main Content -->
+        <div class="content-container">
+            <h1 class="page-title">Empowerment</h1>
+            <h2 class="page-subtitle">Check Your Loan Eligibility</h2>
+            <p class="page-description">Find out how much you qualify for instantly</p>
+            
+            <!-- Loan Range -->
+            <div class="loan-range-highlight">
+                <span class="loan-amount-range">Ksh. 1,500 – 60,000</span>
+            </div>
+            
+            <!-- Form -->
+            <form id="eligibilityForm" class="eligibility-form">
+                <div class="form-group">
+                    <label for="fullName">Full Name</label>
+                    <input type="text" id="fullName" name="fullName" required placeholder="Enter your full name">
+                </div>
+                
+                <div class="form-group">
+                    <label for="phoneNumber">Phone Number</label>
+                    <input type="tel" id="phoneNumber" name="phoneNumber" required placeholder="07XXXXXXXX">
+                </div>
+                
+                <div class="form-group">
+                    <label for="idNumber">ID Number</label>
+                    <input type="text" id="idNumber" name="idNumber" required placeholder="Enter your ID number">
+                </div>
+            </form>
+            
+            <!-- Personal Loan Features -->
+            <div class="features-section">
+                <h3 class="features-title">Personal Loan</h3>
+                <div class="features-grid">
+                    <div class="feature">
+                        <i class="fas fa-lock"></i>
+                        <span>Secure Application</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span>No CRB Check</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-file-alt"></i>
+                        <span>Instant Approval</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Check Eligibility Button -->
+            <button type="submit" form="eligibilityForm" class="primary-btn">
+                Check Eligibility
+                <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('eligibilityForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+            
+            // Save to localStorage
+            localStorage.setItem('userData', JSON.stringify(data));
+            
+            // Redirect to loan options
+            window.location.href = 'loan-options.html';
+        });
+    </script>
+</body>
+</html>

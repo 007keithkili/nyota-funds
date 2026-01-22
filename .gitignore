@@ -1,0 +1,14 @@
+﻿# Common ignores
+node_modules/
+venv/
+.env
+.vscode/
+*.log
+.DS_Store
+# Windows temp / user files
+AppData/
+Desktop/
+Documents/
+Downloads/
+NTUSER.DAT
+*.db

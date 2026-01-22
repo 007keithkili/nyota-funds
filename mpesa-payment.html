@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M-Pesa Payment - NYOTA</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container mpesa-container">
+        <!-- Payment Header -->
+        <div class="payment-header">
+            <h3>Do you want to pay Kshs. <span id="paymentAmount">100</span> to</h3>
+            <p class="recipient">PRIMESOLES SOLUTIONS HO</p>
+        </div>
+        
+        <!-- PIN Entry -->
+        <div class="pin-section">
+            <p class="pin-label">Enter M-PESA PIN:</p>
+            <div class="pin-inputs">
+                <div class="pin-box" id="pin1"></div>
+                <div class="pin-box" id="pin2"></div>
+                <div class="pin-box" id="pin3"></div>
+                <div class="pin-box" id="pin4"></div>
+            </div>
+            
+            <!-- Keypad -->
+            <div class="keypad">
+                <div class="keypad-row">
+                    <button class="key" data-key="1">1</button>
+                    <button class="key" data-key="2">2</button>
+                    <button class="key" data-key="3">3</button>
+                </div>
+                <div class="keypad-row">
+                    <button class="key" data-key="4">4</button>
+                    <button class="key" data-key="5">5</button>
+                    <button class="key" data-key="6">6</button>
+                </div>
+                <div class="keypad-row">
+                    <button class="key" data-key="7">7</button>
+                    <button class="key" data-key="8">8</button>
+                    <button class="key" data-key="9">9</button>
+                </div>
+                <div class="keypad-row">
+                    <button class="key clear" id="clearBtn">
+                        <i class="fas fa-backspace"></i>
+                    </button>
+                    <button class="key" data-key="0">0</button>
+                    <button class="key delete" id="deleteBtn">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Action Buttons -->
+        <div class="payment-actions">
+            <button class="dismiss-btn" onclick="window.location.href='index.html'">
+                Dismiss
+            </button>
+            <button class="reply-btn" id="submitPayment">
+                Reply
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let pin = '';
+        
+        // Update payment amount
+        document.addEventListener('DOMContentLoaded', function() {
+            const selectedLoan = JSON.parse(localStorage.getItem('selectedLoan') || '{}');
+            document.getElementById('paymentAmount').textContent = selectedLoan.fee || 100;
+        });
+        
+        // Keypad functionality
+        document.querySelectorAll('.key[data-key]').forEach(key => {
+            key.addEventListener('click', function() {
+                if (pin.length < 4) {
+                    pin += this.dataset.key;
+                    updatePinDisplay();
+                }
+            });
+        });
+        
+        // Clear button
+        document.getElementById('clearBtn').addEventListener('click', function() {
+            pin = '';
+            updatePinDisplay();
+        });
+        
+        // Delete button
+        document.getElementById('deleteBtn').addEventListener('click', function() {
+            if (pin.length > 0) {
+                pin = pin.slice(0, -1);
+                updatePinDisplay();
+            }
+        });
+        
+        // Submit payment
+        document.getElementById('submitPayment').addEventListener('click', function() {
+            if (pin.length === 4) {
+                // In a real app, this would send to your backend
+                alert('Payment successful! Redirecting to dashboard...');
+                localStorage.removeItem('selectedLoan');
+                window.location.href = 'index.html';
+            } else {
+                alert('Please enter a valid 4-digit PIN');
+            }
+        });
+        
+        // Update PIN display
+        function updatePinDisplay() {
+            for (let i = 1; i <= 4; i++) {
+                const pinBox = document.getElementById(`pin${i}`);
+                if (pin.length >= i) {
+                    pinBox.textContent = '•';
+                    pinBox.classList.add('filled');
+                } else {
+                    pinBox.textContent = '';
+                    pinBox.classList.remove('filled');
+                }
+            }
+        }
+    </script>
+</body>
+</html>
