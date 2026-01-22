@@ -1174,3 +1174,50 @@ body {
   pointer-events: none;
 }
 /* END TEMP FIX */
+
+/* ===== TEMP UI OVERRIDES: widen central column and improve spacing ===== */
+
+/* site max width — desktop comfortable width */
+:root { --site-max-width: 920px; }
+
+/* target lots of common container names used in templates */
+.main, .container, .app, .wrapper, .site, .content, #main, .page, .page-wrapper,
+.content-wrapper, .nyota, .nyota-wrapper, .panel, .loan-card, .form-card {
+  max-width: var(--site-max-width) !important;
+  width: min(100%, var(--site-max-width)) !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding-left: 20px !important;
+  padding-right: 20px !important;
+  box-sizing: border-box !important;
+}
+
+/* make card / form elements expand to available width */
+.card, .panel, .form-card, .loan-card, .sidebar {
+  max-width: 100% !important;
+  width: 100% !important;
+}
+
+/* small readability improvements */
+body { font-size: 16px !important; line-height: 1.45 !important; }
+
+/* PIN masking overlay (in case bullets still show garbled text) */
+.pin-box, .pin-digit, .pin-cell, .mpesa-pin, .mpesa-pin * {
+  position: relative;
+  color: transparent !important; /* hide any broken text */
+}
+.pin-box::after, .pin-digit::after, .pin-cell::after, .mpesa-pin::after {
+  content: "\2022";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  font-size: 34px;
+  color: #2ecc71;
+  pointer-events: none;
+}
+
+/* responsive safety — keep it tidy on very large screens */
+@media (min-width: 1400px) {
+  :root { --site-max-width: 1100px; }
+}
