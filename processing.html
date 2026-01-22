@@ -4,14 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Processing Payment - NYOTA</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>">
 </head>
 <body>
     <div class="app-container processing-container">
         <!-- Processing Animation -->
         <div class="processing-animation">
-            <i class="fas fa-spinner fa-spin"></i>
+            <div class="spinner">
+                <div class="double-bounce1"></div>
+                <div class="double-bounce2"></div>
+            </div>
         </div>
         
         <!-- Processing Text -->
@@ -20,17 +24,42 @@
             <p>Connecting to M-Pesa...</p>
         </div>
         
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        
         <!-- Continue to M-Pesa -->
         <div class="processing-info">
             <p>You will be redirected to M-Pesa to complete your payment</p>
         </div>
+        
+        <!-- Cancel Button -->
+        <button class="secondary-btn" onclick="window.location.href='/confirm-loan.html'">
+            <i class="fas fa-times"></i> Cancel
+        </button>
     </div>
 
     <script>
         // Simulate processing and redirect to M-Pesa payment
+        let progress = 0;
+        const progressBar = document.getElementById('progressBar');
+        const interval = setInterval(function() {
+            progress += 10;
+            progressBar.style.width = progress + '%';
+            
+            if (progress >= 100) {
+                clearInterval(interval);
+                setTimeout(function() {
+                    window.location.href = '/mpesa-payment.html';
+                }, 500);
+            }
+        }, 300);
+        
+        // Auto-redirect after 5 seconds
         setTimeout(function() {
-            window.location.href = 'mpesa-payment.html';
-        }, 3000);
+            window.location.href = '/mpesa-payment.html';
+        }, 5000);
     </script>
 </body>
 </html>

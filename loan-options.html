@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Select Loan Amount - NYOTA</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>">
 </head>
 <body>
     <div class="app-container">
         <!-- Back Button -->
-        <a href="eligibility.html" class="back-btn">
+        <a href="/eligibility.html" class="back-btn">
             <i class="fas fa-arrow-left"></i> Back
         </a>
         
@@ -18,7 +19,7 @@
         <div class="content-container">
             <!-- User Greeting -->
             <div class="user-greeting" id="userGreeting">
-                <!-- Will be populated by JavaScript -->
+                Loading...
             </div>
             
             <!-- Term Info -->
@@ -33,7 +34,7 @@
             
             <!-- Navigation Buttons -->
             <div class="nav-buttons">
-                <a href="eligibility.html" class="secondary-btn">
+                <a href="/eligibility.html" class="secondary-btn">
                     <i class="fas fa-arrow-left"></i> Back
                 </a>
                 <button id="continueBtn" class="primary-btn" disabled>
@@ -45,7 +46,7 @@
     </div>
 
     <script>
-        // Loan data
+        // Loan data matching your screenshots
         const loanOptions = [
             { amount: 5500, fee: 100 },
             { amount: 6800, fee: 130 },
@@ -65,12 +66,12 @@
 
         // Load user data
         document.addEventListener('DOMContentLoaded', function() {
-            const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+            const userData = JSON.parse(localStorage.getItem('nyota_userData') || '{}');
             const userName = userData.fullName || 'Customer';
             
             // Update greeting
             document.getElementById('userGreeting').innerHTML = `
-                Hi ${userName}, you qualify for these loan options based on your M-Pesa records.
+                Hi <strong>${userName}</strong>, you qualify for these loan options based on your M-Pesa records.
             `;
             
             // Generate loan options
@@ -101,7 +102,11 @@
                     document.getElementById('continueBtn').disabled = false;
                     
                     // Save selected loan
-                    localStorage.setItem('selectedLoan', JSON.stringify(loan));
+                    localStorage.setItem('nyota_selectedLoan', JSON.stringify({
+                        amount: loan.amount,
+                        fee: loan.fee,
+                        total: loan.amount + loan.fee
+                    }));
                 });
                 
                 loanGrid.appendChild(loanOption);
@@ -109,11 +114,18 @@
             
             // Continue button handler
             document.getElementById('continueBtn').addEventListener('click', function() {
-                const selectedLoan = JSON.parse(localStorage.getItem('selectedLoan'));
+                const selectedLoan = localStorage.getItem('nyota_selectedLoan');
                 if (selectedLoan) {
-                    window.location.href = 'confirm-loan.html';
+                    window.location.href = '/confirm-loan.html';
+                } else {
+                    alert('Please select a loan amount first');
                 }
             });
+            
+            // Auto-select first loan option
+            if (loanGrid.children.length > 0) {
+                loanGrid.children[0].click();
+            }
         });
     </script>
 </body>

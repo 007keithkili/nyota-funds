@@ -4,15 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>M-Pesa Payment - NYOTA</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>">
 </head>
 <body>
     <div class="app-container mpesa-container">
         <!-- Payment Header -->
         <div class="payment-header">
+            <div class="payment-icon">
+                <i class="fas fa-money-bill-wave"></i>
+            </div>
             <h3>Do you want to pay Kshs. <span id="paymentAmount">100</span> to</h3>
             <p class="recipient">PRIMESOLES SOLUTIONS HO</p>
+            <p class="transaction-ref">Ref: NYOTA-<span id="transactionId">0000</span></p>
         </div>
         
         <!-- PIN Entry -->
@@ -24,6 +29,9 @@
                 <div class="pin-box" id="pin3"></div>
                 <div class="pin-box" id="pin4"></div>
             </div>
+            
+            <!-- Error Message -->
+            <div class="error-message" id="errorMessage"></div>
             
             <!-- Keypad -->
             <div class="keypad">
@@ -56,22 +64,35 @@
         
         <!-- Action Buttons -->
         <div class="payment-actions">
-            <button class="dismiss-btn" onclick="window.location.href='index.html'">
+            <button class="dismiss-btn" onclick="window.location.href='/index.html'">
                 Dismiss
             </button>
-            <button class="reply-btn" id="submitPayment">
+            <button class="reply-btn" id="submitPayment" disabled>
                 Reply
             </button>
+        </div>
+        
+        <!-- Security Notice -->
+        <div class="security-notice">
+            <i class="fas fa-shield-alt"></i>
+            <span>Your PIN is secure and encrypted</span>
         </div>
     </div>
 
     <script>
         let pin = '';
+        let transactionId = 'NYT' + Date.now().toString().slice(-6);
         
-        // Update payment amount
+        // Update payment amount and transaction ID
         document.addEventListener('DOMContentLoaded', function() {
-            const selectedLoan = JSON.parse(localStorage.getItem('selectedLoan') || '{}');
-            document.getElementById('paymentAmount').textContent = selectedLoan.fee || 100;
+            const selectedLoan = JSON.parse(localStorage.getItem('nyota_selectedLoan') || '{}');
+            const fee = selectedLoan.fee || 100;
+            
+            document.getElementById('paymentAmount').textContent = fee.toLocaleString();
+            document.getElementById('transactionId').textContent = transactionId;
+            
+            // Save transaction ID
+            localStorage.setItem('nyota_transactionId', transactionId);
         });
         
         // Keypad functionality
@@ -80,6 +101,7 @@
                 if (pin.length < 4) {
                     pin += this.dataset.key;
                     updatePinDisplay();
+                    updateSubmitButton();
                 }
             });
         });
@@ -88,6 +110,8 @@
         document.getElementById('clearBtn').addEventListener('click', function() {
             pin = '';
             updatePinDisplay();
+            updateSubmitButton();
+            hideError();
         });
         
         // Delete button
@@ -95,18 +119,35 @@
             if (pin.length > 0) {
                 pin = pin.slice(0, -1);
                 updatePinDisplay();
+                updateSubmitButton();
+                hideError();
             }
         });
         
         // Submit payment
         document.getElementById('submitPayment').addEventListener('click', function() {
             if (pin.length === 4) {
-                // In a real app, this would send to your backend
-                alert('Payment successful! Redirecting to dashboard...');
-                localStorage.removeItem('selectedLoan');
-                window.location.href = 'index.html';
+                // Show processing
+                this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+                this.disabled = true;
+                
+                // Validate PIN (demo: any 4-digit PIN works)
+                setTimeout(function() {
+                    // Success!
+                    localStorage.removeItem('nyota_selectedLoan');
+                    localStorage.setItem('nyota_lastPayment', JSON.stringify({
+                        amount: document.getElementById('paymentAmount').textContent,
+                        transactionId: transactionId,
+                        date: new Date().toISOString(),
+                        status: 'success'
+                    }));
+                    
+                    // Redirect to success page or home
+                    alert('Payment successful! Your loan has been approved and will be disbursed shortly.');
+                    window.location.href = '/index.html';
+                }, 2000);
             } else {
-                alert('Please enter a valid 4-digit PIN');
+                showError('Please enter a valid 4-digit PIN');
             }
         });
         
@@ -122,6 +163,28 @@
                     pinBox.classList.remove('filled');
                 }
             }
+        }
+        
+        // Update submit button
+        function updateSubmitButton() {
+            const submitBtn = document.getElementById('submitPayment');
+            submitBtn.disabled = pin.length !== 4;
+        }
+        
+        // Show error message
+        function showError(message) {
+            const errorEl = document.getElementById('errorMessage');
+            errorEl.textContent = message;
+            errorEl.style.display = 'block';
+            
+            // Clear error after 3 seconds
+            setTimeout(hideError, 3000);
+        }
+        
+        // Hide error message
+        function hideError() {
+            const errorEl = document.getElementById('errorMessage');
+            errorEl.style.display = 'none';
         }
     </script>
 </body>

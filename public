@@ -4,14 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Confirm Loan - NYOTA</title>
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>">
 </head>
 <body>
     <div class="app-container">
         <!-- Back Button -->
-        <a href="/loan-options.html" class="back-btn">
+        <a href="loan-options.html" class="back-btn">
             <i class="fas fa-arrow-left"></i> Back to Home
         </a>
         
@@ -44,7 +43,7 @@
             
             <!-- Action Buttons -->
             <div class="action-buttons">
-                <button class="cancel-btn" onclick="window.location.href='/loan-options.html'">
+                <button class="cancel-btn" onclick="window.location.href='loan-options.html'">
                     Cancel
                 </button>
                 <button class="proceed-btn" id="proceedBtn">
@@ -57,42 +56,21 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Load user data
-            const userData = JSON.parse(localStorage.getItem('nyota_userData') || '{}');
-            const selectedLoan = JSON.parse(localStorage.getItem('nyota_selectedLoan') || '{}');
+            const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+            const selectedLoan = JSON.parse(localStorage.getItem('selectedLoan') || '{}');
             
             // Update display
             document.getElementById('userPhone').textContent = userData.phoneNumber || 'N/A';
             document.getElementById('loanAmount').textContent = `Ksh ${(selectedLoan.amount || 0).toLocaleString()}`;
             document.getElementById('processingFee').textContent = `Ksh ${(selectedLoan.fee || 0).toLocaleString()}`;
             
-            // Calculate total (in your screenshot it shows Ksh 33,000 for Ksh 30,000 + 470)
-            // This seems to include interest, so let's calculate properly
-            const amount = selectedLoan.amount || 0;
-            const fee = selectedLoan.fee || 0;
-            const interest = Math.round(amount * 0.1); // 10% interest
-            const total = amount + fee + interest;
-            
+            // Calculate total
+            const total = (selectedLoan.amount || 0) + (selectedLoan.fee || 0);
             document.getElementById('totalRepayment').textContent = `Ksh ${total.toLocaleString()}`;
-            
-            // Save updated total
-            localStorage.setItem('nyota_selectedLoan', JSON.stringify({
-                ...selectedLoan,
-                interest: interest,
-                total: total
-            }));
             
             // Proceed button handler
             document.getElementById('proceedBtn').addEventListener('click', function() {
-                // Simulate payment processing
-                const processingTime = Math.floor(Math.random() * 2000) + 1000;
-                
-                // Show loading
-                this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
-                this.disabled = true;
-                
-                setTimeout(function() {
-                    window.location.href = '/processing.html';
-                }, processingTime);
+                window.location.href = 'processing.html';
             });
         });
     </script>

@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Check Loan Eligibility - NYOTA</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>">
 </head>
 <body>
     <div class="app-container">
         <!-- Back Button -->
-        <a href="index.html" class="back-btn">
+        <a href="/index.html" class="back-btn">
             <i class="fas fa-arrow-left"></i> Back to Home
         </a>
         
@@ -71,18 +72,35 @@
     </div>
 
     <script>
-        document.getElementById('eligibilityForm').addEventListener('submit', function(e) {
-            e.preventDefault();
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('eligibilityForm');
             
-            // Get form data
-            const formData = new FormData(this);
-            const data = Object.fromEntries(formData);
-            
-            // Save to localStorage
-            localStorage.setItem('userData', JSON.stringify(data));
-            
-            // Redirect to loan options
-            window.location.href = 'loan-options.html';
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Get form data
+                const formData = new FormData(form);
+                const data = Object.fromEntries(formData);
+                
+                // Validate data
+                if (!data.fullName || !data.phoneNumber || !data.idNumber) {
+                    alert('Please fill in all fields');
+                    return;
+                }
+                
+                // Validate phone number
+                const phoneRegex = /^0[0-9]{9}$/;
+                if (!phoneRegex.test(data.phoneNumber)) {
+                    alert('Please enter a valid phone number (e.g., 0712345678)');
+                    return;
+                }
+                
+                // Save to localStorage
+                localStorage.setItem('nyota_userData', JSON.stringify(data));
+                
+                // Redirect to loan options
+                window.location.href = '/loan-options.html';
+            });
         });
     </script>
 </body>
