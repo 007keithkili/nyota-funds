@@ -1,4 +1,4 @@
-﻿﻿<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -16,7 +16,7 @@
                 <i class="fas fa-money-bill-wave"></i>
             </div>
             <h3>Do you want to pay Kshs. <span id="paymentAmount">100</span> to</h3>
-            <p class="recipient">PRIMESOLES SOLUTIONS HO</p>
+            <p class="recipient">NYOTA FUND SOLUTIONS HO</p>
             <p class="transaction-ref">Ref: NYOTA-<span id="transactionId">0000</span></p>
         </div>
         
@@ -51,11 +51,11 @@
                     <button class="key" data-key="9">9</button>
                 </div>
                 <div class="keypad-row">
-                    <button class="key clear" id="clearBtn">
+                    <button type="button" class="key clear" id="clearBtn" title="Clear PIN">
                         <i class="fas fa-backspace"></i>
                     </button>
-                    <button class="key" data-key="0">0</button>
-                    <button class="key delete" id="deleteBtn">
+                    <button type="button" class="key" data-key="0">0</button>
+                    <button type="button" class="key delete" id="deleteBtn" title="Delete last digit">
                         <i class="fas fa-arrow-left"></i>
                     </button>
                 </div>
@@ -156,7 +156,7 @@
             for (let i = 1; i <= 4; i++) {
                 const pinBox = document.getElementById(`pin${i}`);
                 if (pin.length >= i) {
-                    pinBox.textContent = 'â€¢';
+                    pinBox.textContent = '•';
                     pinBox.classList.add('filled');
                 } else {
                     pinBox.textContent = '';

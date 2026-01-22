@@ -1,5 +1,5 @@
 ﻿# fix_encoding3.ps1
-# Recover files when UTF-8 bytes were misinterpreted as CP1252 (fixes â€¢ etc.)
+# Recover files when UTF-8 bytes were misinterpreted as CP1252 (fixes • etc.)
 Param()
 
 $repo = Get-Location

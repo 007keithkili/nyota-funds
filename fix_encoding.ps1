@@ -26,10 +26,10 @@ try {
 
   # 2) Find & replace common garbled sequences
   $replacements = @{
-    'â€¢'      = '•';     # common bullet garble
-    'Ã¢Â€Â¢'   = '•';     # another variant
-    'â€™'      = '’';     # right single quote
-    'â€œ'      = '“';     # left double quote
+    '•'      = '•';     # common bullet garble
+    '•'   = '•';     # another variant
+    '’'      = '’';     # right single quote
+    '“'      = '“';     # left double quote
     'â€\u009d' = '”';     # right double quote variant
     'Ã©'      = 'é'      # example accented e variant (add more if needed)
   }
@@ -43,7 +43,7 @@ try {
       $new = $new -replace [regex]::Escape($k), $replacements[$k]
     }
     # also fix CSS content property for garbled bullet
-    $new = $new -replace 'content\s*:\s*["'']\s*(?:â€¢|Ã¢Â€Â¢)\s*["'']', 'content: "\2022"'
+    $new = $new -replace 'content\s*:\s*["'']\s*(?:•|•)\s*["'']', 'content: "\2022"'
 
     if ($new -ne $text) {
       [System.IO.File]::WriteAllText($f.FullName, $new, New-Object System.Text.UTF8Encoding($false))
