@@ -17,8 +17,8 @@ const applications = new Map();
 
 // M-Pesa Daraja API Configuration
 const MPESA_CONFIG = {
-    consumerKey: process.env.MPESA_CONSUMER_KEY,
-    consumerSecret: process.env.MPESA_CONSUMER_SECRET,
+    consumerKey: process.env.b3Kh7Pdfawi0N90pLqMeSCHJB3LDMpOhligAeCC8ezqd5nKI,
+    consumerSecret: process.env.HGzGeTMY1zD3RhjJpANQIov9F7X4yUHOR1YmG2l9AfkTYfmnQwDFXk4qIwNpou94,
     shortCode: process.env.MPESA_SHORTCODE,
     passkey: process.env.MPESA_PASSKEY,
     callbackURL: process.env.MPESA_CALLBACK_URL || 'https://your-domain.com/callback'
